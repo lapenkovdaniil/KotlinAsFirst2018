@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
-
+package lesson1.task1
 import kotlin.math.*
+
 
 /**
  * Пример
@@ -57,12 +58,9 @@ fun main(args: Array<String>) {
  * Пользователь задает время в часах, минутах и секундах, например, 8:20:35.
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
-fun seconds(hours: Int, minutes: Int, seconds: Int): Int {
+fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
 
-    val h = hours * 3600
-    val m = minutes * 60
-    return seconds + m + h
-}
+
 
 /**
  * Тривиальная
@@ -76,7 +74,6 @@ fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
     val a = arshins * 48 / 3 * 4.445
     val v = vershoks * 4.445
     return (s + a + v) / 100
-
 }
 
 /**
