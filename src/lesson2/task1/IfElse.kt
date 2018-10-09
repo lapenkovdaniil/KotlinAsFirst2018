@@ -120,6 +120,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
+
                           bishopX: Int, bishopY: Int): Int = TODO()
 //(kingX == rookX || kingY == rookY)  -> 3
 

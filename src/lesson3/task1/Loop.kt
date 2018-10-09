@@ -1,6 +1,9 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson3.task1
 
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
@@ -66,7 +69,17 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var number = abs(n)
+    var count = 0
+
+    do {
+        count++
+        number /= 10
+    } while (number > 0)
+
+    return count
+}
 
 /**
  * Простая
@@ -74,15 +87,38 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var n1 = 0  // (n - 1)-th and
+    var n2 = 1  // (n - 2)-th numbers
 
+    // I virtually define fib(-1) = 1
+    // and fib(0) = 0 to get rid
+    // of 'special' cases
+
+    for (i in 1 until n) {
+        val t = n1
+        n1 += n2
+        n2 = t
+    }
+
+    return n1 + n2
+}
 /**
  * Простая
  *
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    val less = min(m, n)
+    val more = max(m, n)
+    var lcm = more
+
+    while (lcm % less != 0)
+        lcm += more
+
+    return lcm
+}
 
 /**
  * Простая
