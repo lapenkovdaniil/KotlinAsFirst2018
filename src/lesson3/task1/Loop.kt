@@ -2,6 +2,7 @@
 
 package lesson3.task1
 
+import lesson1.task1.sqr
 import kotlin.math.*
 
 /**
@@ -200,7 +201,20 @@ fun collatzSteps(x: Int): Int {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double = TODO()
+fun sin(x: Double, eps: Double): Double {
+    val x1 = x % (2 * PI)
+    var end = x1
+    var num = x1
+    var i = 1.0
+    while (true) {
+        num = -num * sqr(x1) / ((i + 1) * (i + 2))
+        if (Math.abs(num) < eps)
+            break
+        end += num
+        i += 2
+    }
+    return end
+}
 
 /**
  * Средняя
@@ -209,7 +223,20 @@ fun sin(x: Double, eps: Double): Double = TODO()
  * cos(x) = 1 - x^2 / 2! + x^4 / 4! - x^6 / 6! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun cos(x: Double, eps: Double): Double = TODO()
+fun cos(x: Double, eps: Double): Double {
+    val x1 = x % (2 * PI)
+    var end = 1.0
+    var num = 1.0
+    var i = 0.0
+    while (true) {
+        num = -num * sqr(x1) / ((i + 1) * (i + 2))
+        if (Math.abs(num) < eps)
+            break
+        end += num
+        i += 2
+    }
+    return end
+}
 
 /**
  * Средняя
