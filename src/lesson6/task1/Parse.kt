@@ -95,7 +95,6 @@ fun dateStrToDigit(str: String): String {
             else -> throw Exception()
         }
         if (day !in 1..daysInMonth(month, year)) throw Exception()
-        if (year > 3000) return ""
         return String.format("%02d.%02d.%d", day, month, year)
     } catch (e: Exception) {
         return ""
@@ -114,7 +113,7 @@ fun dateStrToDigit(str: String): String {
  */
 fun dateDigitToStr(digital: String): String {
     val parts = digital.split(".")
-    if (parts.size != 3) return ""
+    if (parts.size > 3) return ""
     val days: Int
     val month: String
     val year: Int
@@ -136,8 +135,6 @@ fun dateDigitToStr(digital: String): String {
             else -> return ""
         }
         year = parts[2].toInt()
-        if (days > daysInMonth(parts[1].toInt(), year)) return ""
-        if (year > 3000) return ""
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -156,7 +153,12 @@ fun dateDigitToStr(digital: String): String {
  * Все символы в номере, кроме цифр, пробелов и +-(), считать недопустимыми.
  * При неверном формате вернуть пустую строку
  */
-fun flattenPhoneNumber(phone: String): String = TODO()
+fun flattenPhoneNumber(phone: String): String =
+        if (Regex("""[^\s\d()\-+]|\d(?=.*\+)""") in phone) {
+            ""
+        } else {
+            Regex("""[()\-\s]""").replace(phone, "")
+        }
 
 /**
  * Средняя
@@ -168,7 +170,11 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int = TODO()
+fun bestLongJump(jumps: String): Int {
+    if (Regex("""[^\d\s-%]""") in jumps) return -1
+    return jumps.split(" ").filter { Regex("""\d+""").matches(it) }
+            .map { it.toInt() }.max() ?: -1
+}
 
 /**
  * Сложная
@@ -191,7 +197,19 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    if (expression.matches(Regex("\\d+(\\s[+-]\\s\\d+)*"))) {
+        val list = expression.split(" ")
+        var sum = ArrayList(list)[0]!!.toInt()
+        for (i in 1 until list.size) {
+            if (ArrayList(list)[i] == "+") sum += ArrayList(list)[i + 1]!!.toInt()
+            if (ArrayList(list)[i] == "-") sum -= ArrayList(list)[i + 1]!!.toInt()
+        }
+        return sum
+    } else {
+        throw IllegalArgumentException()
+    }
+}
 
 /**
  * Сложная
