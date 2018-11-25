@@ -133,8 +133,18 @@ fun abs(v: List<Double>): Double {
  *
  * Рассчитать среднее арифметическое элементов списка list. Вернуть 0.0, если список пуст
  */
-fun mean(list: List<Double>): Double =
-        if (list.isEmpty()) 0.0 else list.sum() / list.size
+fun mean(list: List<Double>): Double {
+    var sum = 0.0
+    var count = 0.0
+    if (list.isEmpty()) return 0.0
+    else
+        for (i in 0 until list.size) {
+            val k = list[i]
+            sum += k
+            count++
+        }
+    return sum / count
+}
 
 /**
  * Средняя
@@ -146,8 +156,9 @@ fun mean(list: List<Double>): Double =
  */
 fun center(list: MutableList<Double>): MutableList<Double> {
     val mean = mean(list)
-    for (i in 0 until list.size)
+    for (i in 0 until list.size) {
         list[i] -= mean
+    }
     return list
 }
 
@@ -163,9 +174,9 @@ fun times(a: List<Double>, b: List<Double>): Double {
     if (a.isEmpty() || b.isEmpty()) return 0.0
     else
         for (i in 0 until a.size) {
-            val a1 = a[i]
-            val b1 = b[i]
-            times += a1 * b1
+            val k = a[i]
+            val l = b[i]
+            times += k * l
         }
     return times
 }
@@ -181,14 +192,13 @@ fun times(a: List<Double>, b: List<Double>): Double {
 fun polynom(p: List<Double>, x: Double): Double {
     return if (p.isEmpty()) 0.0
     else {
-        var polynom = p[0]
+        var px = p[0]
         for (i in 1 until p.size) {
             val k = p[i]
-            polynom += k * pow(x, i.toDouble())
+            px += k * pow(x, i.toDouble())
         }
-        polynom
+        px
     }
-
 }
 
 /**
@@ -203,8 +213,9 @@ fun polynom(p: List<Double>, x: Double): Double {
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
     if (list.isEmpty()) return list
-    for (i in 1 until list.size)
+    for (i in 1 until list.size){
         list[i] += list[i - 1]
+    }
     return list
 }
 
@@ -216,7 +227,6 @@ fun accumulate(list: MutableList<Double>): MutableList<Double> {
  * Множители в списке должны располагаться по возрастанию.
  */
 fun factorize(n: Int): List<Int> = TODO()
-
 /**
  * Сложная
  *
@@ -257,6 +267,7 @@ fun convertToString(n: Int, base: Int): String =
             if (it > 9) 'a' + (it - 10)
             else it
         }.joinToString(separator = "")
+
 /**
  * Средняя
  *
@@ -264,16 +275,7 @@ fun convertToString(n: Int, base: Int): String =
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int {
-    var k = 1
-    var r = 0
-    digits.reversed().forEach {
-        r += it * k
-        k *= base
-    }
-
-    return r
-}
+fun decimal(digits: List<Int>, base: Int): Int = TODO()
 
 /**
  * Сложная
@@ -285,6 +287,7 @@ fun decimal(digits: List<Int>, base: Int): Int {
  * Например: str = "13c", base = 14 -> 250
  */
 fun decimalFromString(str: String, base: Int): Int = TODO()
+
 /**
  * Сложная
  *
@@ -293,48 +296,7 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String {
-    var k = ""
-    when (n / 1000){
-        1 -> k += "M"
-        2 -> k += "MM"
-        3 -> k += "MMM"
-    }
-    when (n / 100 % 10) {
-        1 -> k += "C"
-        2 -> k += "CC"
-        3 -> k += "CCC"
-        4 -> k += "CD"
-        5 -> k += "D"
-        6 -> k += "DC"
-        7 -> k += "DCC"
-        8 -> k += "DCCC"
-        9 -> k += "CM"
-    }
-    when (n / 10 % 10) {
-        1 -> k += "X"
-        2 -> k += "XX"
-        3 -> k += "XXX"
-        4 -> k += "XL"
-        5 -> k += "L"
-        6 -> k += "LX"
-        7 -> k += "LXX"
-        8 -> k += "LXXX"
-        9 -> k += "XC"
-    }
-    when (n % 10) {
-        1 -> k += "I"
-        2 -> k += "II"
-        3 -> k += "III"
-        4 -> k += "IV"
-        5 -> k += "V"
-        6 -> k += "VI"
-        7 -> k += "VII"
-        8 -> k += "VIII"
-        9 -> k += "IX"
-    }
-    return k
-}
+fun roman(n: Int): String = TODO()
 
 /**
  * Очень сложная

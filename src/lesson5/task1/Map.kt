@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import kotlinx.html.InputType
+
 /**
  * Пример
  *
@@ -95,13 +97,13 @@ fun buildWordSet(text: List<String>): MutableSet<String> {
  *   ) -> mapOf("Emergency" to "112, 911", "Police" to "02")
  */
 fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<String, String> {
-    val mapC = mapA.toMutableMap()
-    mapB.forEach { key, value ->
-        mapC.merge(key, value) { existed, _ ->
-            if (existed == value) existed else "$existed, $value"
-        }
-    }
-    return mapC
+    val associate = mapA.toMutableMap()
+    for ((name, phone) in mapB)
+        if (mapA.containsKey(name) && mapA[name] != phone) {
+            val list = listOf(mapA[name], mapB[name]).joinToString()
+            associate[name] = list
+        } else associate[name] = phone
+    return associate
 }
 
 /**
@@ -114,7 +116,16 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
  *   buildGrades(mapOf("Марат" to 3, "Семён" to 5, "Михаил" to 5))
  *     -> mapOf(5 to listOf("Семён", "Михаил"), 3 to listOf("Марат"))
  */
-fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
+fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> {
+    val bGrades = mutableMapOf<Int, List<String>>()
+    for ((key, value) in grades) {
+        if (bGrades[value] == null) bGrades[value] = listOf(key)
+        else bGrades[value] = bGrades[value]!! + key
+    }
+    for ((grade, name) in bGrades)
+        bGrades[grade] = name.sortedDescending()
+    return bGrades
+}
 
 /**
  * Простая
@@ -126,8 +137,8 @@ fun buildGrades(grades: Map<String, Int>): Map<Int, List<String>> = TODO()
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "z", "b" to "sweet")) -> true
  *   containsIn(mapOf("a" to "z"), mapOf("a" to "zee", "b" to "sweet")) -> false
  */
-fun containsIn(a: Map<String, String>, b: Map<String, String>) =
-        a.all { (i, r) -> b[i] == r }
+fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean =
+        a.all { (key, value) -> b[key] == value }
 
 /**
  * Средняя
@@ -139,7 +150,23 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>) =
  *   averageStockPrice(listOf("MSFT" to 100.0, "MSFT" to 200.0, "NFLX" to 40.0))
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
-fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> = TODO()
+fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
+    val stock: MutableMap<String, Double> = mutableMapOf()
+    val result: MutableMap<String, Double> = mutableMapOf()
+    for (i in 0 until stockPrices.size)
+        stock[stockPrices[i].first] = 0.0
+    for ((key, _) in stock) {
+        var sum = 0.0
+        var v = 0
+        for (i in 0 until stockPrices.size) if (key == stockPrices[i].first) {
+            v++
+            sum += stockPrices[i].second
+        }
+        sum /= v
+        result[key] = sum
+    }
+    return result
+}
 
 /**
  * Средняя

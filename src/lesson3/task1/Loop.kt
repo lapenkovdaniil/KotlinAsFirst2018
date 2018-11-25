@@ -13,7 +13,7 @@ import kotlin.math.*
 fun factorial(n: Int): Double {
     var result = 1.0
     for (i in 1..n) {
-        result = result * i
+        result = result * i // Please do not fix in master
     }
     return result
 }
@@ -69,8 +69,8 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Использовать операции со строками в этой задаче запрещается.
  */
 fun digitNumber(n: Int): Int {
-    var number = abs(n)
     var count = 0
+    var number = abs(n)
     do {
         count++
         number /= 10
@@ -116,13 +116,12 @@ fun lcm(m: Int, n: Int): Int {
  * Для заданного числа n > 1 найти минимальный делитель, превышающий 1
  */
 fun minDivisor(n: Int): Int {
-    var min = 0
-    for (i in 2..n) {
-        min = i
-        if (n % i == 0) break
-    }
+    var min = 2
+    while (n % min != 0)
+        min++
     return min
 }
+
 
 /**
  * Простая
@@ -130,10 +129,9 @@ fun minDivisor(n: Int): Int {
  * Для заданного числа n > 1 найти максимальный делитель, меньший n
  */
 fun maxDivisor(n: Int): Int {
-    var max = 1
-    for (i in 1..n) {
-        if (n % i == 0 && i < n) max = i
-    }
+    var max = n / 2
+    while (n % max != 0)
+        max -= 1
     return max
 }
 
@@ -201,20 +199,7 @@ fun collatzSteps(x: Int): Int {
  * sin(x) = x - x^3 / 3! + x^5 / 5! - x^7 / 7! + ...
  * Нужную точность считать достигнутой, если очередной член ряда меньше eps по модулю
  */
-fun sin(x: Double, eps: Double): Double {
-    val x1 = x % (2 * PI)
-    var end = x1
-    var num = x1
-    var i = 1.0
-    while (true) {
-        num = -num * sqr(x1) / ((i + 1) * (i + 2))
-        if (Math.abs(num) < eps)
-            break
-        end += num
-        i += 2
-    }
-    return end
-}
+fun sin(x: Double, eps: Double): Double = TODO()
 
 /**
  * Средняя

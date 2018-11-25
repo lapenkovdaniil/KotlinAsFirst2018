@@ -58,7 +58,6 @@ fun minBiRoot(a: Double, b: Double, c: Double): Double {
     if (y3 < 0.0) return Double.NaN // 6
     return -sqrt(y3)           // 7
 }
-
 /**
  * Простая
  *
@@ -70,7 +69,6 @@ fun ageDescription(age: Int): String = when {
     (age % 10 in 2..4) && (age % 100 !in 12..14) -> "$age года"
     else -> "$age лет"
 }
-
 /**
  * Простая
  *
@@ -82,14 +80,12 @@ fun timeForHalfWay(t1: Double, v1: Double,
                    t2: Double, v2: Double,
                    t3: Double, v3: Double): Double {
     val halfS = (v1 * t1 + v2 * t2 + v3 * t3) / 2
-
     return when {
         v1 * t1 > halfS -> halfS / v1
         v1 * t1 + v2 * t2 > halfS -> t1 + (halfS - v1 * t1) / v2
         else -> t1 + t2 + (halfS - v1 * t1 - v2 * t2) / v3
     }
 }
-
 /**
  * Простая
  *
@@ -102,10 +98,10 @@ fun timeForHalfWay(t1: Double, v1: Double,
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
                        rookX2: Int, rookY2: Int): Int = when {
-    (kingX == rookX1 || kingY == rookY1) && (kingX == rookX2 || kingX == rookY2) -> 3
-    kingX == rookX2 || kingX == rookY2 -> 2
     kingX == rookX1 || kingY == rookY1 -> 1
-    else -> 0
+    kingX == rookX2 || kingY == rookY2 -> 2
+    kingX != rookX1 || kingX != rookX2 || kingY != rookY1 || kingX != rookY2 -> 0
+    else -> 3
 }
 
 /**
@@ -120,10 +116,7 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-
                           bishopX: Int, bishopY: Int): Int = TODO()
-//(kingX == rookX || kingY == rookY)  -> 3
-
 
 /**
  * Простая
@@ -155,4 +148,3 @@ fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = when {
     c in a..b && d >= a && d <= b -> d - c
     else -> -1
 }
-

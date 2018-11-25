@@ -1,6 +1,7 @@
 @file:Suppress("UNUSED_PARAMETER")
 package lesson1.task1
 import kotlin.math.*
+import kotlin.math.pow
 
 
 /**
@@ -23,15 +24,13 @@ fun sqr(x: Double) = x * x
  * Вычисление дискриминанта квадратного уравнения
  */
 fun discriminant(a: Double, b: Double, c: Double) = sqr(b) - 4 * a * c
-
 /**
  * Пример
  *
- * Поис одного из корней квадратного уравнения
+ * Поиск одного из корней квадратного уравнения
  */
 fun quadraticEquationRoot(a: Double, b: Double, c: Double) =
         (-b + sqrt(discriminant(a, b, c))) / (2 * a)
-
 /**
  * Пример
  *
@@ -43,7 +42,6 @@ fun quadraticRootProduct(a: Double, b: Double, c: Double): Double {
     val x2 = (-b - sd) / (2 * a)
     return x1 * x2 // Результат
 }
-
 /**
  * Пример главной функции
  */
@@ -51,7 +49,6 @@ fun main(args: Array<String>) {
     val x1x2 = quadraticRootProduct(1.0, 13.0, 42.0)
     println("Root product: $x1x2")
 }
-
 /**
  * Тривиальная
  *
@@ -59,9 +56,6 @@ fun main(args: Array<String>) {
  * Рассчитать время в секундах, прошедшее с начала суток (30035 в данном случае).
  */
 fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minutes * 60 + seconds
-
-
-
 /**
  * Тривиальная
  *
@@ -69,47 +63,29 @@ fun seconds(hours: Int, minutes: Int, seconds: Int): Int = hours * 3600 + minute
  * Определить длину того же отрезка в метрах (в данном случае 18.98).
  * 1 сажень = 3 аршина = 48 вершков, 1 вершок = 4.445 см.
  */
-fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double {
-    val s = sagenes * 48 * 4.445
-    val a = arshins * 48 / 3 * 4.445
-    val v = vershoks * 4.445
-    return (s + a + v) / 100
-}
-
+fun lengthInMeters(sagenes: Int, arshins: Int, vershoks: Int): Double =
+        (sagenes * 48.0 * 4.445 + arshins * 16.0 * 4.445 + vershoks * 4.445) / 100
 /**
  * Тривиальная
  *
  * Пользователь задает угол в градусах, минутах и секундах (например, 36 градусов 14 минут 35 секунд).
  * Вывести значение того же угла в радианах (например, 0.63256).
  */
-fun angleInRadian(grad: Int, min: Int, sec: Int): Double {
-    val m = min / 60.0
-    val s = sec / 3600.0
-    return (m + s + grad) * PI / 180.0
-}
+fun angleInRadian(deg: Int, min: Int, sec: Int): Double = (deg + min / 60.0 + sec / 3600.0) * PI / 180.0
 /**
  * Тривиальная
  *
  * Найти длину отрезка, соединяющего точки на плоскости с координатами (x1, y1) и (x2, y2).
  * Например, расстояние между (3, 0) и (0, 4) равно 5
  */
-fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double {
-    val x = x2 - x1
-    val y = y2 - y1
-    return sqrt(x * x + y * y)
-}
-
+fun trackLength(x1: Double, y1: Double, x2: Double, y2: Double): Double = sqrt(sqr(x2 - x1) + sqr(y2-y1))
 /**
  * Простая
  *
  * Пользователь задает целое число, большее 100 (например, 3801).
  * Определить третью цифру справа в этом числе (в данном случае 8).
  */
-fun thirdDigit(number: Int): Int {
-    val n = number % 1000
-    return n / 100
-}
-
+fun thirdDigit(number: Int): Int = number / 100 % 10
 /**
  * Простая
  *
@@ -117,11 +93,8 @@ fun thirdDigit(number: Int): Int {
  * прибыл на станцию назначения в h2 часов m2 минут того же дня (например в 13:01).
  * Определите время поезда в пути в минутах (в данном случае 216).
  */
-fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int {
-    val ha = hoursArrive * 60 + minutesArrive
-    val hd = hoursDepart * 60 + minutesDepart
-    return ha - hd
-}
+fun travelMinutes(hoursDepart: Int, minutesDepart: Int, hoursArrive: Int, minutesArrive: Int): Int =
+        (hoursArrive * 60 + minutesArrive) - (hoursDepart * 60 + minutesDepart)
 /**
  * Простая
  *
@@ -133,8 +106,6 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
     val i = 1 + percent / 100.0
     return initial * i * i * i
 }
-
-
 /**
  * Простая
  *
@@ -142,8 +113,9 @@ fun accountInThreeYears(initial: Int, percent: Int): Double {
  * Необходимо вывести число, полученное из заданного перестановкой цифр в обратном порядке (например, 874).
  */
 fun numberRevert(number: Int): Int {
-    val a = (number / 100)
-    val b = (number - a * 100) / 10
-    val c = (number - 10 * b - 100 * a)
-    return a + b * 10 + c * 100
+    val i = number / 10
+    val k = i / 10
+    val m = i % 10
+    val l = number % 10
+    return l * 100 + m * 10 + k
 }
