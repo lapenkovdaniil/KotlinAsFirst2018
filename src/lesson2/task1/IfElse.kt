@@ -5,6 +5,7 @@ package lesson2.task1
 
 import lesson1.task1.discriminant
 import lesson1.task1.sqr
+import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.sqrt
 
@@ -97,11 +98,15 @@ fun timeForHalfWay(t1: Double, v1: Double,
  */
 fun whichRookThreatens(kingX: Int, kingY: Int,
                        rookX1: Int, rookY1: Int,
-                       rookX2: Int, rookY2: Int): Int = when {
-    kingX == rookX1 || kingY == rookY1 -> 1
-    kingX == rookX2 || kingY == rookY2 -> 2
-    kingX != rookX1 || kingX != rookX2 || kingY != rookY1 || kingX != rookY2 -> 0
-    else -> 3
+                       rookX2: Int, rookY2: Int): Int {
+    val rook1 = rookX1 == kingX || rookY1 == kingY
+    val rook2 = rookX2 == kingX || rookY2 == kingY
+    return when {
+        rook1 && rook2 -> 3
+        rook1 -> 1
+        rook2 -> 2
+        else -> 0
+    }
 }
 
 /**
@@ -116,7 +121,16 @@ fun whichRookThreatens(kingX: Int, kingY: Int,
  */
 fun rookOrBishopThreatens(kingX: Int, kingY: Int,
                           rookX: Int, rookY: Int,
-                          bishopX: Int, bishopY: Int): Int = TODO()
+                          bishopX: Int, bishopY: Int): Int {
+    val rook = rookX == kingX || rookY == kingY
+    val bishop = abs(bishopX - kingX) == abs(bishopY - kingY)
+    return when {
+        rook && bishop -> 3
+        rook -> 1
+        bishop -> 2
+        else -> 0
+    }
+}
 
 /**
  * Простая
