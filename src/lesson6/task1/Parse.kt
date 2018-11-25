@@ -95,6 +95,7 @@ fun dateStrToDigit(str: String): String {
             else -> throw Exception()
         }
         if (day !in 1..daysInMonth(month, year)) throw Exception()
+        if (year > 3000) return ""
         return String.format("%02d.%02d.%d", day, month, year)
     } catch (e: Exception) {
         return ""
@@ -136,6 +137,7 @@ fun dateDigitToStr(digital: String): String {
         }
         year = parts[2].toInt()
         if (days > daysInMonth(parts[1].toInt(), year)) return ""
+        if (year > 3000) return ""
     } catch (e: NumberFormatException) {
         return ""
     }
