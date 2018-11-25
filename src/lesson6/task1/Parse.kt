@@ -2,6 +2,9 @@
 
 package lesson6.task1
 
+import javafx.util.Builder
+import lesson2.task2.daysInMonth
+
 /**
  * Пример
  *
@@ -49,12 +52,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -71,7 +72,34 @@ fun main(args: Array<String>) {
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    try {
+        val parts = str.split(" ")
+        if (parts.size > 3) throw Exception()
+        val day = parts[0].toInt()
+        val month: Int
+        val year = parts[2].toInt()
+        month = when (parts[1]) {
+            "января" -> 1
+            "февраля" -> 2
+            "марта" -> 3
+            "апреля" -> 4
+            "мая" -> 5
+            "июня" -> 6
+            "июля" -> 7
+            "августа" -> 8
+            "сентября" -> 9
+            "октября" -> 10
+            "ноября" -> 11
+            "декабря" -> 12
+            else -> throw Exception()
+        }
+        if (day !in 1..daysInMonth(month, year)) throw Exception()
+        return String.format("%02d.%02d.%d", day, month, year)
+    } catch (e: Exception) {
+        return ""
+    }
+}
 
 /**
  * Средняя
@@ -83,7 +111,36 @@ fun dateStrToDigit(str: String): String = TODO()
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30 февраля 2009) считается неверными
  * входными данными.
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val parts = digital.split(".")
+    if (parts.size != 3) return ""
+    val days: Int
+    val month: String
+    val year: Int
+    try {
+        days = parts[0].toInt()
+        month = when (parts[1].toInt()) {
+            1 -> "января"
+            2 -> "февраля"
+            3 -> "марта"
+            4 -> "апреля"
+            5 -> "мая"
+            6 -> "июня"
+            7 -> "июля"
+            8 -> "августа"
+            9 -> "сентября"
+            10 -> "октября"
+            11 -> "ноября"
+            12 -> "декабря"
+            else -> return ""
+        }
+        year = parts[2].toInt()
+        if (days > daysInMonth(parts[1].toInt(), year)) return ""
+    } catch (e: NumberFormatException) {
+        return ""
+    }
+    return ("$days $month $year")
+}
 
 /**
  * Средняя
