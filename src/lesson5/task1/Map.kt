@@ -75,7 +75,7 @@ fun removeFillerWords(
  */
 fun buildWordSet(text: List<String>): MutableSet<String> {
     val res = mutableSetOf<String>()
-    for (word in text) res.add(word)
+    for (word in text) res += word
     return res
 }
 
@@ -232,7 +232,7 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TO
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = TODO()
+fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter(b::contains).distinct()
 
 /**
  * Средняя
