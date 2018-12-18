@@ -139,33 +139,29 @@ fun alignFileByWidth(inputName: String, outputName: String) {
     val op = File(outputName).bufferedWriter()
     var lenth = 0
     val list = mutableListOf<String>()
-    File(inputName).readLines().forEach { line ->
-        val str = Regex(""" +""").replace(line.trim(), " ")
-        list.add(str)
-        when {
-            str.length > lenth -> lenth = str.length
-        }
+    for (line in File(inputName).readLines()) {
+        val s = Regex(""" +""").replace(line.trim(), " ")
+        list.add(s)
+        if (s.length > lenth)
+            lenth = s.length
     }
     for (line in list) {
+        var count = 0
         var space = 0
-        var all = 0
-        var w: String
+        var str: String
         val words = line.split(" ").toMutableList()
-        when {
-            line.length == lenth || words.size < 2 -> w = line
-            else -> {
-                val charLength = Regex(""" """).replace(line, "").length
-                w = words[words.size - 1]
-                (words.size - 2 downTo 0).forEach { i ->
-                    w = words[words.size - 1]
-                    all += space
-                    space = (lenth - charLength - all) / (i + 1)
-                    w = words[i].padEnd(space + words[i].length) + w
-                }
+        if (line.length == lenth || words.size < 2)
+            str = line
+        else {
+            str = words[words.size - 1]
+            for (i in words.size - 2 downTo 0) {
+                count += space
+                space = (lenth - Regex(""" """).replace(line, "").length - count) / (i + 1)
+                str = words[i].padEnd(space + words[i].length) + str
             }
         }
+        op.write(str)
         op.newLine()
-        op.write(w)
     }
     op.close()
 }
