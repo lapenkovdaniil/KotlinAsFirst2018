@@ -195,10 +195,10 @@ fun bestHighJump(jumps: String): Int = TODO()
 fun plusMinus(expression: String): Int {
     if (expression.matches(Regex("\\d+(\\s[+-]\\s\\d+)*"))) {
         val list = expression.split(" ")
-        var sum = ArrayList(list)[0]!!.toInt()
+        var sum = list[0].toInt()
         for (i in 1 until list.size) {
-            if (ArrayList(list)[i] == "+") sum += ArrayList(list)[i + 1]!!.toInt()
-            if (ArrayList(list)[i] == "-") sum -= ArrayList(list)[i + 1]!!.toInt()
+            if (ArrayList(list)[i] == "+") sum += list[i + 1]!!.toInt()
+            if (ArrayList(list)[i] == "-") sum -= list[i + 1]!!.toInt()
         }
         return sum
     } else {

@@ -54,7 +54,20 @@ fun alignFile(inputName: String, lineLength: Int, outputName: String) {
  * Регистр букв игнорировать, то есть буквы е и Е считать одинаковыми.
  *
  */
-fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> = TODO()
+fun countSubstrings(inputName: String, substrings: List<String>): Map<String, Int> {
+    val map = mutableMapOf<String, Int>()
+    val text = File(inputName).readText().toLowerCase()
+    substrings.toSet().forEach { element ->
+        var count = 0
+        var i = 0
+        while (Regex(element.toLowerCase()).find(text, i) != null) {
+            count++
+            i = Regex(element.toLowerCase()).find(text, i)!!.range.start + 1
+        }
+        map[element] = count
+    }
+    return map
+}
 
 
 /**
@@ -123,7 +136,38 @@ fun centerFile(inputName: String, outputName: String) {
  * 8) Если входной файл удовлетворяет требованиям 1-7, то он должен быть в точности идентичен выходному файлу
  */
 fun alignFileByWidth(inputName: String, outputName: String) {
-    TODO()
+    val op = File(outputName).bufferedWriter()
+    var lenth = 0
+    val list = mutableListOf<String>()
+    File(inputName).readLines().forEach { line ->
+        val str = Regex(""" +""").replace(line.trim(), " ")
+        list.add(str)
+        when {
+            str.length > lenth -> lenth = str.length
+        }
+    }
+    for (line in list) {
+        var space = 0
+        var all = 0
+        var w: String
+        val words = line.split(" ").toMutableList()
+        when {
+            line.length == lenth || words.size < 2 -> w = line
+            else -> {
+                val charLength = Regex(""" """).replace(line, "").length
+                w = words[words.size - 1]
+                (words.size - 2 downTo 0).forEach { i ->
+                    w = words[words.size - 1]
+                    all += space
+                    space = (lenth - charLength - all) / (i + 1)
+                    w = words[i].padEnd(space + words[i].length) + w
+                }
+            }
+        }
+        op.newLine()
+        op.write(w)
+    }
+    op.close()
 }
 
 /**

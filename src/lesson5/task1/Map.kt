@@ -75,7 +75,7 @@ fun removeFillerWords(
  */
 fun buildWordSet(text: List<String>): MutableSet<String> {
     val res = mutableSetOf<String>()
-    for (word in text) res += word
+    for (word in text) res.add(word)
     return res
 }
 
@@ -100,8 +100,7 @@ fun mergePhoneBooks(mapA: Map<String, String>, mapB: Map<String, String>): Map<S
     val associate = mapA.toMutableMap()
     for ((name, phone) in mapB)
         if (mapA.containsKey(name) && mapA[name] != phone) {
-            val list = listOf(mapA[name], mapB[name]).joinToString()
-            associate[name] = list
+            associate[name] = "${mapA[name]}, $phone"
         } else associate[name] = phone
     return associate
 }
@@ -151,7 +150,7 @@ fun containsIn(a: Map<String, String>, b: Map<String, String>): Boolean =
  *     -> mapOf("MSFT" to 150.0, "NFLX" to 40.0)
  */
 fun averageStockPrice(stockPrices: List<Pair<String, Double>>): Map<String, Double> {
-    val stock: MutableMap<String, Double> = mutableMapOf()
+    val stock = mutableMapOf<String, Double>()
     val result: MutableMap<String, Double> = mutableMapOf()
     for (i in 0 until stockPrices.size)
         stock[stockPrices[i].first] = 0.0
@@ -232,7 +231,8 @@ fun subtractOf(a: MutableMap<String, String>, b: Map<String, String>): Unit = TO
  *
  * Для двух списков людей найти людей, встречающихся в обоих списках
  */
-fun whoAreInBoth(a: List<String>, b: List<String>): List<String> = a.filter(b::contains).distinct()
+fun whoAreInBoth(a: List<String>, b: List<String>): MutableList<String> =
+        a.filter(b::contains).distinct().toMutableList()
 
 /**
  * Средняя
@@ -275,7 +275,6 @@ fun hasAnagrams(words: List<String>): Boolean {
     else anagrams += n.toList().sorted() to n
     return false
 }
-
 /**
  * Сложная
  *

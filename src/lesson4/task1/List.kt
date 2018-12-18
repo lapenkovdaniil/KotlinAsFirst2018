@@ -3,7 +3,10 @@
 package lesson4.task1
 
 import lesson1.task1.discriminant
+import lesson1.task1.sqr
+import lesson3.task1.isPrime
 import java.lang.Math.pow
+import javax.management.Query.plus
 import kotlin.math.pow
 import kotlin.math.sqrt
 
@@ -117,16 +120,7 @@ fun buildSumExample(list: List<Int>) = list.joinToString(separator = " + ", post
  * по формуле abs = sqrt(a1^2 + a2^2 + ... + aN^2).
  * Модуль пустого вектора считать равным 0.0.
  */
-fun abs(v: List<Double>): Double {
-    var sum = 0.0
-    if (v.isEmpty()) return 0.0
-    else
-        for (i in 0 until v.size) {
-            val k = v[i]
-            sum += k.pow(2)
-        }
-    return sqrt(sum)
-}
+fun abs(v: List<Double>): Double = sqrt(v.fold(0.0) { prev, that -> prev + that * that })
 
 /**
  * Простая
@@ -135,15 +129,12 @@ fun abs(v: List<Double>): Double {
  */
 fun mean(list: List<Double>): Double {
     var sum = 0.0
-    var count = 0.0
     if (list.isEmpty()) return 0.0
     else
         for (i in 0 until list.size) {
-            val k = list[i]
-            sum += k
-            count++
+            sum += list[i]
         }
-    return sum / count
+    return sum / list.size
 }
 
 /**
@@ -189,16 +180,13 @@ fun times(a: List<Double>, b: List<Double>): Double {
  * Коэффициенты многочлена заданы списком p: (p0, p1, p2, p3, ..., pN).
  * Значение пустого многочлена равно 0.0 при любом x.
  */
-fun polynom(p: List<Double>, x: Double): Double {
-    return if (p.isEmpty()) 0.0
-    else {
-        var px = p[0]
-        for (i in 1 until p.size) {
-            val k = p[i]
-            px += k * pow(x, i.toDouble())
-        }
-        px
+fun polynom(p: List<Double>, x: Double): Double = if (p.isEmpty()) 0.0
+else {
+    var px = p[0]
+    for (i in 1 until p.size) {
+        px += p[i] * pow(x, i.toDouble())
     }
+    px
 }
 
 /**
@@ -212,8 +200,7 @@ fun polynom(p: List<Double>, x: Double): Double {
  * Обратите внимание, что данная функция должна изменять содержание списка list, а не его копии.
  */
 fun accumulate(list: MutableList<Double>): MutableList<Double> {
-    if (list.isEmpty()) return list
-    for (i in 1 until list.size){
+    for (i in 1 until list.size) {
         list[i] += list[i - 1]
     }
     return list
@@ -244,13 +231,13 @@ fun factorizeToString(n: Int): String = TODO()
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    var list = listOf<Int>()
+    var list = mutableListOf<Int>()
     var k = n
     while (k >= base) {
-        list += (k % base)
+        list = list.plus((k % base)).toMutableList()
         k /= base
     }
-    list += k
+    list = list.plus(k).toMutableList()
     return list.asReversed()
 }
 
